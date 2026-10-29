@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Sala da Morte | ORDEM VETO</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --cinza: #a3a3a3;
+    --cinza-escuro: #454545;
+    --fundo: #080808;
+    --painel: #111111;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at center, #252525 0%, #101010 45%, #050505 100%);
+    color: #d0d0d0;
+    font-family: "Courier New", monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.container {
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+}
+
+.categoria {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: #777;
+    margin-bottom: 22px;
+}
+
+h1 {
+    font-size: clamp(30px, 7vw, 48px);
+    letter-spacing: 7px;
+    color: #bdbdbd;
+    text-shadow: 0 0 18px #ffffff18;
+    margin-bottom: 12px;
+}
+
+.subtitulo {
+    font-size: 12px;
+    color: #777;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+}
+
+.divisor {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #777, transparent);
+    margin-bottom: 28px;
+}
+
+.historia {
+    font-size: 13px;
+    line-height: 1.9;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.pistas {
+    background: #101010;
+    border: 1px solid #373737;
+    padding: 24px;
+    text-align: left;
+    margin-bottom: 28px;
+}
+
+.pistas h2 {
+    color: #bdbdbd;
+    font-size: 13px;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.pistas p {
+    font-size: 12px;
+    line-height: 2;
+    color: #999;
+}
+
+.pistas p::before {
+    content: "▸ ";
+    color: #777;
+}
+
+.instrucao {
+    color: #777;
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+.simbolos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.simbolo {
+    min-height: 115px;
+    padding: 15px 8px;
+    background: #111;
+    border: 1px solid #444;
+    color: #aaa;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.simbolo:hover:not(:disabled) {
+    background: #252525;
+    border-color: #aaa;
+    box-shadow: 0 0 15px #ffffff12;
+}
+
+.simbolo:focus-visible,
+.acao:focus-visible {
+    outline: 2px solid #ddd;
+    outline-offset: 4px;
+}
+
+.simbolo:disabled {
+    cursor: default;
+    opacity: 0.45;
+}
+
+.simbolo .icone {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.simbolo .nome {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.sequencia {
+    background: #0b0b0b;
+    border: 1px solid #333;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.sequencia h3 {
+    font-size: 10px;
+    color: #777;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+}
+
+.slots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.slot {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #444;
+    color: #aaa;
+    font-size: 21px;
+}
+
+.slot.preenchido {
+    border-style: solid;
+    border-color: #777;
+    background: #1b1b1b;
+}
+
+.acao {
+    background: #1a1a1a;
+    border: 1px solid #777;
+    color: #ccc;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 15px 22px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.acao:hover:not(:disabled) {
+    background: #303030;
+    border-color: #ccc;
+}
+
+.acao:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#mensagem {
+    min-height: 55px;
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #999;
+}
+
+.sucesso {
+    color: #d0d0d0 !important;
+    text-shadow: 0 0 12px #ffffff22;
+}
+
+.erro {
+    color: #b56c6c !important;
+}
+
+.rodape {
+    margin-top: 25px;
+    color: #444;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.piscando {
+    animation: falha 0.25s ease-in-out 3;
+}
+
+@keyframes falha {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+@media (max-width: 380px) {
+    body {
+        padding: 14px;
+    }
+
+    .pistas {
+        padding: 16px;
+    }
+
+    .simbolo {
+        min-height: 100px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container" id="sala">
+
+    <p class="categoria">ORDEM VETO // SETOR RESTRITO</p>
+
+    <h1>A MORTE</h1>
+
+    <p class="subtitulo">SALA I — O ÚLTIMO SILÊNCIO</p>
+
+    <div class="divisor"></div>
+
+    <p class="historia">
+        O ar é frio. Quatro símbolos estão gravados em placas
+        de pedra, cobertas por uma fina camada de cinzas.<br><br>
+
+        Uma voz distorcida ecoa pelas paredes:
+        <br><br>
+        <em>
+            "Tudo termina. Mas até o fim precisa obedecer
+            a uma ordem."
+        </em>
+    </p>
+
+    <section class="pistas">
+        <h2>INSCRIÇÃO ENCONTRADA</h2>
+
+        <p>A vela ocupa uma posição imediatamente anterior à ampulheta.</p>
+
+        <p>A caveira não pode ocupar nenhuma das extremidades.</p>
+
+        <p>A árvore morta aparece depois da caveira.</p>
+
+        <p>A ampulheta não ocupa a primeira posição.</p>
+    </section>
+
+    <p class="instrucao">
+        Descubra a ordem correta dos quatro símbolos.<br>
+        Selecione-os na sequência em que devem aparecer.
+    </p>
+
+    <section class="simbolos" id="simbolos">
+
+        <button class="simbolo" data-id="vela">
+            <span class="icone">🕯</span>
+            <span class="nome">VELA APAGADA</span>
+        </button>
+
+        <button class="simbolo" data-id="ampulheta">
+            <span class="icone">⌛</span>
+            <span class="nome">AMPULHETA</span>
+        </button>
+
+        <button class="simbolo" data-id="caveira">
+            <span class="icone">☠</span>
+            <span class="nome">CAVEIRA</span>
+        </button>
+
+        <button class="simbolo" data-id="arvore">
+            <span class="icone">♧</span>
+            <span class="nome">ÁRVORE MORTA</span>
+        </button>
+
+    </section>
+
+    <section class="sequencia">
+        <h3>SUA SEQUÊNCIA</h3>
+
+        <div class="slots" id="slots">
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+        </div>
+    </section>
+
+    <button class="acao" id="confirmar" disabled>
+        CONFIRMAR SEQUÊNCIA
+    </button>
+
+    <div id="mensagem" aria-live="polite">
+        A pedra aguarda sua decisão.
+    </div>
+
+    <footer class="rodape">
+        A MORTE NÃO ESQUECE
+    </footer>
+
+</main>
+
+<script>
+const botoes = [...document.querySelectorAll(".simbolo")];
+const slots = [...document.querySelectorAll(".slot")];
+const confirmar = document.getElementById("confirmar");
+const mensagem = document.getElementById("mensagem");
+const sala = document.getElementById("sala");
+
+const nomes = {
+    vela: "🕯",
+    ampulheta: "⌛",
+    caveira: "☠",
+    arvore: "♧"
+};
+
+// Ordem correta: vela, ampulheta, caveira, árvore.
+const respostaCorreta = [
+    "vela",
+    "ampulheta",
+    "caveira",
+    "arvore"
+];
+
+let sequencia = [];
+let encerrado = false;
+
+function som(frequencia, duracao, tipo = "sine") {
+    try {
+        const contexto = new (window.AudioContext ||
+            window.webkitAudioContext)();
+
+        const oscilador = contexto.createOscillator();
+        const volume = contexto.createGain();
+
+        oscilador.type = tipo;
+        oscilador.frequency.value = frequencia;
+
+        volume.gain.setValueAtTime(
+            0.08,
+            contexto.currentTime
+        );
+
+        volume.gain.exponentialRampToValueAtTime(
+            0.001,
+            contexto.currentTime + duracao
+        );
+
+        oscilador.connect(volume);
+        volume.connect(contexto.destination);
+
+        oscilador.start();
+        oscilador.stop(contexto.currentTime + duracao);
+
+        oscilador.onended = () => contexto.close();
+    } catch (e) {
+        // O puzzle continua funcionando se o áudio estiver indisponível.
+    }
+}
+
+function atualizarSequencia() {
+    slots.forEach((slot, i) => {
+        slot.textContent = sequencia[i]
+            ? nomes[sequencia[i]]
+            : "?";
+
+        slot.classList.toggle(
+            "preenchido",
+            Boolean(sequencia[i])
+        );
+    });
+
+    confirmar.disabled = sequencia.length !== 4 || encerrado;
+}
+
+function selecionarSimbolo(evento) {
+    if (encerrado || sequencia.length >= 4) return;
+
+    const botao = evento.currentTarget;
+    const id = botao.dataset.id;
+
+    if (sequencia.includes(id)) return;
+
+    sequencia.push(id);
+    botao.disabled = true;
+
+    mensagem.textContent =
+        `Símbolo registrado. Posição ${sequencia.length} de 4.`;
+
+    som(220, 0.12, "triangle");
+
+    atualizarSequencia();
+}
+
+function bloquearSala() {
+    encerrado = true;
+
+    botoes.forEach(botao => botao.disabled = true);
+
+    confirmar.disabled = true;
+}
+
+function concluirPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "A ordem foi aceita. A pedra se parte e uma luz cinzenta " +
+        "atravessa a sala. A TRAVA DA MORTE FOI LIBERADA.";
+
+    mensagem.className = "sucesso";
+
+    som(440, 0.3);
+    setTimeout(() => som(330, 0.5), 250);
+
+    sala.classList.add("piscando");
+
+    // Registra a conclusão neste navegador.
+    localStorage.setItem("puzzle_morte_concluido", "true");
+}
+
+function falharPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "A sequência está errada. Um estrondo ecoa pela sala. " +
+        "As placas escurecem. O mecanismo foi bloqueado.";
+
+    mensagem.className = "erro";
+
+    som(75, 0.8, "sawtooth");
+
+    sala.classList.add("piscando");
+}
+
+function verificarResposta() {
+    if (encerrado || sequencia.length !== 4) return;
+
+    const correta = sequencia.every(
+        (simbolo, indice) =>
+            simbolo === respostaCorreta[indice]
+    );
+
+    if (correta) {
+        concluirPuzzle();
+    } else {
+        falharPuzzle();
+    }
+}
+
+botoes.forEach(botao => {
+    botao.addEventListener("click", selecionarSimbolo);
+});
+
+confirmar.addEventListener("click", verificarResposta);
+
+// Se a sala já foi concluída neste navegador, não permite repetir.
+if (localStorage.getItem("puzzle_morte_concluido") === "true") {
+    bloquearSala();
+
+    mensagem.textContent =
+        "ESTA SALA JÁ FOI CONCLUÍDA. A TRAVA DA MORTE ESTÁ LIBERADA.";
+
+    mensagem.className = "sucesso";
+}
+</script>
+
+</body>
+</html>
