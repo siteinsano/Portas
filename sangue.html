@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Sala do Sangue | ORDEM VETO</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --vermelho: #d52c3d;
+    --vermelho-claro: #ff6570;
+    --vermelho-escuro: #66121c;
+    --fundo: #080505;
+    --painel: #15090b;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at center, #310c12 0%, #130608 48%, #050303 100%);
+    color: #d8bfc1;
+    font-family: "Courier New", monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.container {
+    width: 100%;
+    max-width: 760px;
+    text-align: center;
+}
+
+.categoria {
+    color: #92303b;
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 22px;
+}
+
+h1 {
+    color: var(--vermelho-claro);
+    font-size: clamp(30px, 7vw, 48px);
+    letter-spacing: 7px;
+    text-shadow: 0 0 22px #d52c3d35;
+    margin-bottom: 12px;
+}
+
+.subtitulo {
+    color: #a3434d;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+}
+
+.divisor {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--vermelho-escuro),
+        transparent
+    );
+    margin-bottom: 28px;
+}
+
+.historia {
+    color: #c19b9f;
+    font-size: 12px;
+    line-height: 2;
+    margin-bottom: 26px;
+}
+
+.inscricao {
+    border: 1px solid var(--vermelho-escuro);
+    background: #100608;
+    padding: 22px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.inscricao h2 {
+    text-align: center;
+    color: var(--vermelho-claro);
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 17px;
+}
+
+.inscricao p {
+    font-size: 12px;
+    line-height: 2;
+    color: #c19b9f;
+    margin-bottom: 8px;
+}
+
+.inscricao p:last-child {
+    margin-bottom: 0;
+}
+
+.inscricao p::before {
+    content: "✦ ";
+    color: var(--vermelho);
+}
+
+.instrucao {
+    color: #a16a70;
+    font-size: 11px;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+
+.recipientes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.recipiente {
+    min-height: 145px;
+    padding: 18px 10px;
+    background: #15090b;
+    color: #e5a1a7;
+    border: 1px solid #6b2029;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.recipiente:hover:not(:disabled) {
+    background: #2b0c11;
+    border-color: var(--vermelho-claro);
+    box-shadow: 0 0 18px #d52c3d20;
+}
+
+.recipiente:focus-visible,
+.acao:focus-visible {
+    outline: 2px solid var(--vermelho-claro);
+    outline-offset: 4px;
+}
+
+.recipiente:disabled {
+    cursor: default;
+    opacity: 0.4;
+}
+
+.icone {
+    display: block;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.nome {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.descricao-recipiente {
+    display: block;
+    color: #a16a70;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.sequencia {
+    padding: 18px;
+    border: 1px solid #50151d;
+    background: #0c0607;
+    margin-bottom: 18px;
+}
+
+.sequencia h3 {
+    color: #a3434d;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.slots {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.slot {
+    width: 48px;
+    height: 48px;
+    border: 1px dashed #6b2029;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    color: var(--vermelho-claro);
+}
+
+.slot.preenchido {
+    background: #260a0e;
+    border-style: solid;
+}
+
+.acao {
+    padding: 15px 22px;
+    background: #260a0e;
+    color: var(--vermelho-claro);
+    border: 1px solid var(--vermelho-escuro);
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.acao:hover:not(:disabled) {
+    background: #3a0d14;
+    border-color: var(--vermelho-claro);
+}
+
+.acao:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#mensagem {
+    min-height: 55px;
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #a16a70;
+}
+
+.sucesso {
+    color: var(--vermelho-claro) !important;
+}
+
+.erro {
+    color: #ff8585 !important;
+}
+
+.rodape {
+    margin-top: 25px;
+    color: #57232a;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.piscando {
+    animation: falha 0.25s ease-in-out 3;
+}
+
+@keyframes falha {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+@media (max-width: 380px) {
+    body {
+        padding: 14px;
+    }
+
+    .inscricao {
+        padding: 15px;
+    }
+
+    .recipiente {
+        min-height: 135px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container" id="sala">
+
+    <p class="categoria">ORDEM VETO // SETOR RESTRITO</p>
+
+    <h1>O SANGUE</h1>
+
+    <p class="subtitulo">SALA III — O PREÇO DA EXISTÊNCIA</p>
+
+    <div class="divisor"></div>
+
+    <p class="historia">
+        O chão é coberto por círculos vermelhos, e quatro recipientes
+        repousam sobre um altar de pedra escura.<br><br>
+
+        Linhas finas conectam os recipientes a um mecanismo antigo.
+        Nenhum deles possui uma marca de identificação.<br><br>
+
+        Uma inscrição foi gravada na parede:
+        <br><br>
+        <em>
+            "O sangue não mente. São os vivos que não sabem interpretá-lo."
+        </em>
+    </p>
+
+    <section class="inscricao">
+
+        <h2>AS QUATRO OFERENDAS</h2>
+
+        <p>O recipiente do Coração deve vir imediatamente antes do recipiente da Rosa.</p>
+
+        <p>O recipiente da Rosa não pode ocupar a primeira posição.</p>
+
+        <p>O recipiente da Lâmina deve aparecer depois do recipiente da Rosa.</p>
+
+        <p>O recipiente do Cálice deve ocupar a primeira posição.</p>
+
+    </section>
+
+    <p class="instrucao">
+        Organize os quatro recipientes na ordem correta.<br>
+        Cada recipiente só pode ser selecionado uma vez.<br>
+        Após confirmar, não será possível alterar a sequência.
+    </p>
+
+    <section class="recipientes" id="recipientes">
+
+        <button class="recipiente" data-id="rosa">
+            <span class="icone">🌹</span>
+            <span class="nome">ROSA</span>
+            <span class="descricao-recipiente">
+                A beleza que floresce por pouco tempo.
+            </span>
+        </button>
+
+        <button class="recipiente" data-id="lamina">
+            <span class="icone">⚔</span>
+            <span class="nome">LÂMINA</span>
+            <span class="descricao-recipiente">
+                Aquilo que encerra o que começou.
+            </span>
+        </button>
+
+        <button class="recipiente" data-id="coracao">
+            <span class="icone">♥</span>
+            <span class="nome">CORAÇÃO</span>
+            <span class="descricao-recipiente">
+                Aquilo que sustenta a vida.
+            </span>
+        </button>
+
+        <button class="recipiente" data-id="calice">
+            <span class="icone">♜</span>
+            <span class="nome">CÁLICE</span>
+            <span class="descricao-recipiente">
+                Aquilo que recebe a oferenda.
+            </span>
+        </button>
+
+    </section>
+
+    <section class="sequencia">
+
+        <h3>ORDEM DAS OFERENDAS</h3>
+
+        <div class="slots" id="slots">
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+        </div>
+
+    </section>
+
+    <button class="acao" id="confirmar" disabled>
+        CONFIRMAR SEQUÊNCIA
+    </button>
+
+    <div id="mensagem" aria-live="polite">
+        O altar aguarda as quatro oferendas.
+    </div>
+
+    <footer class="rodape">
+        TODO SANGUE TEM UMA HISTÓRIA
+    </footer>
+
+</main>
+
+<script>
+const botoes = [...document.querySelectorAll(".recipiente")];
+const slots = [...document.querySelectorAll(".slot")];
+const confirmar = document.getElementById("confirmar");
+const mensagem = document.getElementById("mensagem");
+const sala = document.getElementById("sala");
+
+const simbolos = {
+    rosa: "🌹",
+    lamina: "⚔",
+    coracao: "♥",
+    calice: "♜"
+};
+
+// Ordem correta: Cálice → Coração → Rosa → Lâmina.
+const respostaCorreta = [
+    "calice",
+    "coracao",
+    "rosa",
+    "lamina"
+];
+
+let sequencia = [];
+let encerrado = false;
+
+function som(frequencia, duracao, tipo = "sine") {
+    try {
+        const contexto = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+        const oscilador = contexto.createOscillator();
+        const volume = contexto.createGain();
+
+        oscilador.type = tipo;
+        oscilador.frequency.value = frequencia;
+
+        volume.gain.setValueAtTime(
+            0.06,
+            contexto.currentTime
+        );
+
+        volume.gain.exponentialRampToValueAtTime(
+            0.001,
+            contexto.currentTime + duracao
+        );
+
+        oscilador.connect(volume);
+        volume.connect(contexto.destination);
+
+        oscilador.start();
+        oscilador.stop(contexto.currentTime + duracao);
+
+        oscilador.onended = () => contexto.close();
+    } catch (e) {
+        // O puzzle funciona mesmo sem áudio.
+    }
+}
+
+function atualizarSequencia() {
+    slots.forEach((slot, i) => {
+        slot.textContent = sequencia[i]
+            ? simbolos[sequencia[i]]
+            : "?";
+
+        slot.classList.toggle(
+            "preenchido",
+            Boolean(sequencia[i])
+        );
+    });
+
+    confirmar.disabled =
+        sequencia.length !== 4 || encerrado;
+}
+
+function selecionarRecipiente(evento) {
+    if (encerrado || sequencia.length >= 4) return;
+
+    const botao = evento.currentTarget;
+    const id = botao.dataset.id;
+
+    if (sequencia.includes(id)) return;
+
+    sequencia.push(id);
+    botao.disabled = true;
+
+    mensagem.textContent =
+        `Oferenda registrada. Posição ${sequencia.length} de 4.`;
+
+    som(150, 0.16, "triangle");
+
+    atualizarSequencia();
+}
+
+function bloquearSala() {
+    encerrado = true;
+
+    botoes.forEach(botao => {
+        botao.disabled = true;
+    });
+
+    confirmar.disabled = true;
+}
+
+function concluirPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "O altar absorve as oferendas. As linhas vermelhas brilham, " +
+        "e o mecanismo se abre. A TRAVA DO SANGUE FOI LIBERADA.";
+
+    mensagem.className = "sucesso";
+
+    som(220, 0.3);
+    setTimeout(() => som(330, 0.4), 250);
+    setTimeout(() => som(440, 0.5), 550);
+
+    sala.classList.add("piscando");
+
+    localStorage.setItem(
+        "puzzle_sangue_concluido",
+        "true"
+    );
+}
+
+function falharPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "O altar rejeita a sequência. As linhas vermelhas se apagam " +
+        "e um estrondo ecoa pela sala. O mecanismo foi bloqueado.";
+
+    mensagem.className = "erro";
+
+    som(65, 0.8, "sawtooth");
+
+    sala.classList.add("piscando");
+}
+
+function verificarResposta() {
+    if (encerrado || sequencia.length !== 4) return;
+
+    const correta = sequencia.every(
+        (simbolo, indice) =>
+            simbolo === respostaCorreta[indice]
+    );
+
+    if (correta) {
+        concluirPuzzle();
+    } else {
+        falharPuzzle();
+    }
+}
+
+botoes.forEach(botao => {
+    botao.addEventListener("click", selecionarRecipiente);
+});
+
+confirmar.addEventListener("click", verificarResposta);
+
+if (
+    localStorage.getItem("puzzle_sangue_concluido")
+    === "true"
+) {
+    bloquearSala();
+
+    mensagem.textContent =
+        "ESTA SALA JÁ FOI CONCLUÍDA. A TRAVA DO SANGUE ESTÁ LIBERADA.";
+
+    mensagem.className = "sucesso";
+}
+</script>
+
+</body>
+</html>
