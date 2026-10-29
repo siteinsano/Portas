@@ -3,148 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleção de Salas | ORDEM VETO</title>
+    <title>PORTAS</title>
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
+            margin: 0;
             min-height: 100vh;
-            background: #080808;
-            color: #e0e0e0;
-            font-family: "Courier New", monospace;
+            background:
+                radial-gradient(ellipse at center, #191616 0%, #090909 70%);
+            color: #d6d0c8;
+            font-family: Georgia, "Times New Roman", serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 25px;
+            padding: 40px 20px;
         }
 
-        .container {
+        .pagina {
             width: 100%;
-            max-width: 700px;
+            max-width: 850px;
             text-align: center;
         }
 
         .aviso {
-            color: #777;
-            font-size: 11px;
+            color: #7d2020;
             letter-spacing: 5px;
-            margin-bottom: 20px;
+            font-size: 12px;
+            margin-bottom: 18px;
         }
 
         h1 {
-            font-size: clamp(25px, 6vw, 42px);
-            letter-spacing: 5px;
-            color: #eeeeee;
-            margin-bottom: 15px;
-            text-shadow: 0 0 15px #ffffff22;
+            font-size: clamp(42px, 10vw, 76px);
+            letter-spacing: 12px;
+            font-weight: normal;
+            margin: 0;
+            color: #e4ded4;
+            text-shadow: 0 0 25px #6b2020;
+        }
+
+        .linha {
+            width: 100px;
+            height: 1px;
+            background: #783333;
+            margin: 25px auto;
         }
 
         .descricao {
-            color: #888;
-            font-size: 13px;
+            color: #918981;
+            font-size: 15px;
             line-height: 1.8;
-            margin-bottom: 35px;
+            max-width: 540px;
+            margin: 0 auto 40px;
         }
 
         .salas {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 15px;
+            gap: 16px;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         .sala {
-            --cor: #ffffff;
-
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-
-            min-height: 155px;
-            padding: 20px 10px;
-
-            background: #101010;
-            border: 1px solid var(--cor);
-            border-radius: 4px;
-
-            color: var(--cor);
+            display: block;
             text-decoration: none;
-            cursor: pointer;
-
-            transition:
-                background 0.25s,
-                box-shadow 0.25s,
-                transform 0.25s;
+            background: rgba(20, 19, 19, 0.85);
+            border: 1px solid #393332;
+            padding: 28px 15px;
+            min-height: 145px;
+            transition: background 0.25s, border-color 0.25s,
+                        transform 0.25s;
         }
 
-        .sala:hover,
-        .sala:focus-visible {
-            background: color-mix(in srgb, var(--cor) 12%, #101010);
-            box-shadow: 0 0 22px color-mix(in srgb, var(--cor) 35%, transparent);
+        .sala:hover {
+            background: #201b1b;
             transform: translateY(-3px);
-            outline: none;
         }
 
-        .simbolo {
-            font-size: 32px;
-            line-height: 1;
-        }
-
-        .nome {
-            font-size: 15px;
-            font-weight: bold;
+        .sala h2 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            font-weight: normal;
             letter-spacing: 3px;
         }
 
-        .tema {
-            font-size: 10px;
-            letter-spacing: 2px;
-            opacity: 0.7;
+        .sala p {
+            margin: 0;
+            color: #99908a;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .morte {
-            --cor: #a0a0a0;
+            border-color: #555555;
+        }
+
+        .morte h2 {
+            color: #bdbdbd;
+        }
+
+        .morte:hover {
+            border-color: #a0a0a0;
         }
 
         .conhecimento {
-            --cor: #d8ad45;
+            border-color: #66552d;
+        }
+
+        .conhecimento h2 {
+            color: #d3b86d;
+        }
+
+        .conhecimento:hover {
+            border-color: #c5a54c;
         }
 
         .sangue {
-            --cor: #c62838;
+            border-color: #692525;
+        }
+
+        .sangue h2 {
+            color: #c44747;
+        }
+
+        .sangue:hover {
+            border-color: #bd3939;
         }
 
         .energia {
-            --cor: #a45be8;
+            border-color: #50316d;
+        }
+
+        .energia h2 {
+            color: #b18bd7;
+        }
+
+        .energia:hover {
+            border-color: #9868c5;
         }
 
         .rodape {
-            margin-top: 30px;
-            color: #484848;
-            font-size: 10px;
+            margin-top: 45px;
+            color: #514a46;
+            font-size: 11px;
             letter-spacing: 3px;
         }
 
-        @media (max-width: 380px) {
+        /* Acesso secreto */
+        #botao-secreto {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 9999;
+            background: transparent;
+            border: none;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            opacity: 0.12;
+            cursor: pointer;
+            padding: 10px;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        #botao-secreto:hover,
+        #botao-secreto:focus-visible {
+            opacity: 1;
+            color: #a83232;
+            outline: none;
+        }
+
+        @media (max-width: 480px) {
             .salas {
                 grid-template-columns: 1fr;
             }
 
             .sala {
-                min-height: 125px;
+                min-height: 120px;
             }
-        }
 
-        @media (prefers-reduced-motion: reduce) {
-            .sala {
-                transition: none;
+            h1 {
+                letter-spacing: 7px;
             }
         }
     </style>
@@ -152,50 +195,106 @@
 
 <body>
 
-    <main class="container">
+    <button
+        id="botao-secreto"
+        type="button"
+        aria-label="Acesso secreto"
+        title=""
+    >⚠</button>
 
-        <p class="aviso">ORDEM VETO // ACESSO RESTRITO</p>
+    <main class="pagina">
+        <div class="aviso">ACESSO RESTRITO</div>
 
-        <h1>SELEÇÃO DE SALAS</h1>
+        <h1>PORTAS</h1>
+
+        <div class="linha"></div>
 
         <p class="descricao">
             Quatro caminhos foram abertos.<br>
-            Escolha com cautela. Sua decisão não poderá ser desfeita.
+            Cada um guarda uma prova.<br>
+            Escolha com cuidado aquilo que deseja enfrentar.
         </p>
 
-        <nav class="salas" aria-label="Seleção de puzzles">
+        <nav class="salas" aria-label="Escolha uma sala">
 
-            <a href="morte.html" class="sala morte">
-                <span class="simbolo" aria-hidden="true">☠</span>
-                <span class="nome">MORTE</span>
-                <span class="tema">CINZA // SALA I</span>
+            <a class="sala morte" href="morte.html">
+                <h2>MORTE</h2>
+                <p>Observe os vestígios.<br>Descubra onde repousa a chave.</p>
             </a>
 
-            <a href="conhecimento.html" class="sala conhecimento">
-                <span class="simbolo" aria-hidden="true">◈</span>
-                <span class="nome">CONHECIMENTO</span>
-                <span class="tema">DOURADO // SALA II</span>
+            <a class="sala conhecimento" href="conhecimento.html">
+                <h2>CONHECIMENTO</h2>
+                <p>Procure a verdade.<br>Organize aquilo que foi revelado.</p>
             </a>
 
-            <a href="sangue.html" class="sala sangue">
-                <span class="simbolo" aria-hidden="true">♥</span>
-                <span class="nome">SANGUE</span>
-                <span class="tema">VERMELHO // SALA III</span>
+            <a class="sala sangue" href="sangue.html">
+                <h2>SANGUE</h2>
+                <p>Calcule cada movimento.<br>Nem toda perda é um sacrifício.</p>
             </a>
 
-            <a href="energia.html" class="sala energia">
-                <span class="simbolo" aria-hidden="true">ϟ</span>
-                <span class="nome">ENERGIA</span>
-                <span class="tema">ROXO // SALA IV</span>
+            <a class="sala energia" href="energia.html">
+                <h2>ENERGIA</h2>
+                <p>Domine o circuito.<br>Encontre a sequência correta.</p>
             </a>
 
         </nav>
 
         <footer class="rodape">
-            NENHUMA ESCOLHA É LIVRE DE CONSEQUÊNCIAS
+            NEM TODAS AS PORTAS DEVEM SER ABERTAS
         </footer>
-
     </main>
+
+    <script>
+        const botaoSecreto = document.getElementById("botao-secreto");
+
+        botaoSecreto.addEventListener("click", acessarSecreto);
+
+        function acessarSecreto() {
+            const senha = prompt("Digite a senha:");
+
+            if (senha === null) {
+                return;
+            }
+
+            if (senha !== "portas") {
+                alert("Senha incorreta.");
+                return;
+            }
+
+            const confirmar = confirm(
+                "Deseja reiniciar todos os puzzles?\n\n" +
+                "O progresso e os bloqueios salvos neste navegador serão apagados."
+            );
+
+            if (!confirmar) {
+                return;
+            }
+
+            const chavesParaApagar = [];
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const chave = localStorage.key(i);
+
+                if (
+                    chave &&
+                    (
+                        chave.startsWith("puzzle_") ||
+                        chave.startsWith("portas_")
+                    )
+                ) {
+                    chavesParaApagar.push(chave);
+                }
+            }
+
+            chavesParaApagar.forEach(function(chave) {
+                localStorage.removeItem(chave);
+            });
+
+            alert("Progresso reiniciado. As portas estão prontas novamente.");
+
+            window.location.reload();
+        }
+    </script>
 
 </body>
 </html>
