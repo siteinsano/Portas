@@ -3,575 +3,400 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>A Sala da Energia | ORDEM VETO</title>
+<title>PORTAS — Núcleo da Energia</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+:root {
+  --bg: #090710;
+  --panel: #151020;
+  --purple: #9a65ff;
+  --bright: #d5b8ff;
+  --line: #48336b;
+  --muted: #92859f;
 }
 
-:root {
-    --roxo: #a45bff;
-    --roxo-claro: #d1a4ff;
-    --roxo-escuro: #54228a;
-    --fundo: #08050d;
-    --painel: #120b1b;
-}
+* { box-sizing: border-box; }
 
 body {
-    min-height: 100vh;
-    background:
-        radial-gradient(ellipse at center, #29103f 0%, #100817 48%, #040206 100%);
-    color: #d4c0e8;
-    font-family: "Courier New", monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
+  margin: 0;
+  min-height: 100vh;
+  color: #e9e0f5;
+  background:
+    radial-gradient(ellipse at 50% 0%, #302044 0%, #100c19 42%, #07060a 100%);
+  font-family: Georgia, "Times New Roman", serif;
 }
 
-.container {
-    width: 100%;
-    max-width: 760px;
-    text-align: center;
+main {
+  width: min(760px, 92%);
+  margin: auto;
+  padding: 32px 0 45px;
 }
 
-.categoria {
-    color: #8251a9;
-    font-size: 10px;
-    letter-spacing: 5px;
-    margin-bottom: 22px;
+header { text-align: center; }
+
+.simbolo {
+  font-size: 46px;
+  color: var(--bright);
+  text-shadow: 0 0 24px var(--purple);
+  margin-bottom: 8px;
 }
 
 h1 {
-    color: var(--roxo-claro);
-    font-size: clamp(30px, 7vw, 48px);
-    letter-spacing: 7px;
-    text-shadow: 0 0 22px #a45bff35;
-    margin-bottom: 12px;
+  font-size: clamp(22px, 5vw, 35px);
+  letter-spacing: 5px;
+  font-weight: normal;
+  margin: 0;
 }
 
 .subtitulo {
-    color: #9867bd;
-    font-size: 11px;
-    letter-spacing: 3px;
-    margin-bottom: 30px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-top: 12px;
 }
 
-.divisor {
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--roxo-escuro),
-        transparent
-    );
-    margin-bottom: 28px;
+.linha {
+  height: 1px;
+  margin: 24px 0;
+  background: linear-gradient(90deg, transparent, var(--purple), transparent);
 }
 
-.historia {
-    color: #bba3d1;
-    font-size: 12px;
-    line-height: 2;
-    margin-bottom: 26px;
+.intro {
+  max-width: 580px;
+  margin: auto;
+  text-align: center;
+  line-height: 1.8;
+  color: #c3b5d1;
+  font-size: 15px;
 }
 
-.inscricao {
-    border: 1px solid var(--roxo-escuro);
-    background: #100916;
-    padding: 22px;
-    margin-bottom: 25px;
-    text-align: left;
+.progresso {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 26px 0;
 }
 
-.inscricao h2 {
-    text-align: center;
-    color: var(--roxo-claro);
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-bottom: 17px;
+.etapa {
+  padding: 12px 3px;
+  text-align: center;
+  border: 1px solid var(--line);
+  color: #84748f;
+  font-size: 11px;
+  letter-spacing: 1px;
+  background: #100c18;
 }
 
-.inscricao p {
-    font-size: 12px;
-    line-height: 2;
-    color: #bba3d1;
-    margin-bottom: 8px;
+.etapa.ativa {
+  border-color: var(--purple);
+  color: var(--bright);
+  box-shadow: 0 0 14px #8d53ff25;
 }
 
-.inscricao p:last-child {
-    margin-bottom: 0;
+.etapa.concluida {
+  color: #d8c6ff;
+  background: #33234b;
 }
 
-.inscricao p::before {
-    content: "ϟ ";
-    color: var(--roxo);
+#faseTitulo {
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 3px;
+  font-weight: normal;
 }
 
-.instrucao {
-    color: #a084bb;
-    font-size: 11px;
-    line-height: 1.9;
-    margin-bottom: 18px;
+#faseDescricao {
+  text-align: center;
+  color: #b6a9c6;
+  line-height: 1.7;
+  min-height: 48px;
 }
 
-.nucleos {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 22px;
+.circuito {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 24px 0;
 }
 
-.nucleo {
-    min-height: 145px;
-    padding: 18px 10px;
-    background: #130b1c;
-    color: var(--roxo-claro);
-    border: 1px solid #572b80;
-    font-family: inherit;
-    cursor: pointer;
-    transition: 0.25s;
+.no {
+  position: relative;
+  min-height: 78px;
+  padding: 8px 2px;
+  background: #100c18;
+  border: 1px solid #453257;
+  color: #b9a5d1;
+  font-family: inherit;
+  cursor: pointer;
+  font-size: 26px;
+  transition: .15s;
 }
 
-.nucleo:hover:not(:disabled) {
-    background: #28133a;
-    border-color: var(--roxo-claro);
-    box-shadow: 0 0 20px #a45bff25;
+.no small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #92809f;
+  margin-top: 6px;
 }
 
-.nucleo:focus-visible,
-.acao:focus-visible {
-    outline: 2px solid var(--roxo-claro);
-    outline-offset: 4px;
+.no:hover { border-color: var(--purple); }
+
+.no.ligado {
+  color: #f0dcff;
+  border-color: var(--bright);
+  background: #37224f;
+  box-shadow: 0 0 15px #a568ff3b;
 }
 
-.nucleo:disabled {
-    cursor: default;
-    opacity: 0.4;
+.no.fonte {
+  border-color: #cba5ff;
 }
 
-.icone {
-    display: block;
-    font-size: 32px;
-    margin-bottom: 12px;
+.no.alvo {
+  border-style: dashed;
 }
 
-.nome {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
+.painel {
+  border: 1px solid var(--line);
+  background: #110d19dd;
+  padding: 18px;
+  text-align: center;
 }
 
-.descricao-nucleo {
-    display: block;
-    color: #a084bb;
-    font-size: 10px;
-    line-height: 1.6;
+#status {
+  color: #c6b2dc;
+  min-height: 45px;
+  line-height: 1.7;
+  font-size: 14px;
 }
 
-.sequencia {
-    padding: 18px;
-    border: 1px solid #42205e;
-    background: #0b0710;
-    margin-bottom: 18px;
+button.acao {
+  border: 1px solid #8962b8;
+  background: #281b39;
+  color: #f0e5ff;
+  padding: 12px 17px;
+  margin: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 1px;
 }
 
-.sequencia h3 {
-    color: #9867bd;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 15px;
+button.acao:hover { background: #42285e; }
+
+button.acao:disabled {
+  opacity: .45;
+  cursor: default;
 }
 
-.slots {
-    display: flex;
-    justify-content: center;
-    gap: 9px;
-    flex-wrap: wrap;
+#reiniciar {
+  border-color: #51415f;
+  background: #15101d;
+  color: #b5a6c5;
 }
 
-.slot {
-    width: 48px;
-    height: 48px;
-    border: 1px dashed #572b80;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 21px;
-    color: var(--roxo-claro);
+#voltar {
+  display: block;
+  text-align: center;
+  color: #82738f;
+  text-decoration: none;
+  font-size: 12px;
+  margin-top: 28px;
 }
 
-.slot.preenchido {
-    background: #21102f;
-    border-style: solid;
-}
+#voltar:hover { color: white; }
 
-.acao {
-    padding: 15px 22px;
-    background: #21102f;
-    color: var(--roxo-claro);
-    border: 1px solid var(--roxo-escuro);
-    font-family: inherit;
-    font-size: 11px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.acao:hover:not(:disabled) {
-    background: #35164e;
-    border-color: var(--roxo-claro);
-}
-
-.acao:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-#mensagem {
-    min-height: 55px;
-    margin-top: 22px;
-    font-size: 12px;
-    line-height: 1.8;
-    color: #a084bb;
-}
-
-.sucesso {
-    color: var(--roxo-claro) !important;
-}
-
-.erro {
-    color: #e18bff !important;
-}
-
-.rodape {
-    margin-top: 25px;
-    color: #4d3265;
-    font-size: 9px;
-    letter-spacing: 3px;
-}
-
-.piscando {
-    animation: falha 0.25s ease-in-out 3;
-}
-
-@keyframes falha {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
-}
-
-@media (max-width: 380px) {
-    body {
-        padding: 14px;
-    }
-
-    .inscricao {
-        padding: 15px;
-    }
-
-    .nucleo {
-        min-height: 135px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-    }
+@media (max-width: 420px) {
+  .circuito { gap: 5px; }
+  .no { min-height: 70px; font-size: 22px; }
+  .no small { font-size: 8px; }
+  .etapa { font-size: 9px; }
 }
 </style>
 </head>
 
 <body>
+<main>
+<header>
+  <div class="simbolo">ϟ</div>
+  <h1>O NÚCLEO INSTÁVEL</h1>
+  <div class="subtitulo">PORTAS • PROVA IV • ENERGIA</div>
+</header>
 
-<main class="container" id="sala">
+<div class="linha"></div>
 
-    <p class="categoria">ORDEM VETO // SETOR RESTRITO</p>
+<p class="intro">
+  Quatro circuitos protegem o núcleo. Ative os nós na ordem
+  correta para conduzir a energia até a saída.
+  Cada etapa apresenta uma nova regra.
+  <br><br>
+  <em>A energia não obedece. Você precisa compreendê-la.</em>
+</p>
 
-    <h1>A ENERGIA</h1>
+<div class="progresso" id="progresso">
+  <div class="etapa ativa">FASE I</div>
+  <div class="etapa">FASE II</div>
+  <div class="etapa">FASE III</div>
+  <div class="etapa">FASE IV</div>
+</div>
 
-    <p class="subtitulo">SALA IV — A INSTABILIDADE</p>
+<h2 id="faseTitulo">FASE I — A PARTIDA</h2>
+<p id="faseDescricao"></p>
 
-    <div class="divisor"></div>
+<div class="circuito" id="circuito"></div>
 
-    <p class="historia">
-        A iluminação da sala pisca sem seguir nenhum padrão.
-        Cabos atravessam as paredes, convergindo para quatro núcleos
-        suspensos sobre plataformas metálicas.<br><br>
+<section class="painel">
+  <p id="status" aria-live="polite"></p>
+  <button class="acao" id="verificar">Verificar circuito</button>
+  <button class="acao" id="reiniciar">Reiniciar fase</button>
+</section>
 
-        Um zumbido cresce a cada segundo. Os núcleos parecem
-        responder à presença de quem se aproxima.<br><br>
-
-        Uma mensagem surge no painel central:
-        <br><br>
-        <em>
-            "A energia não nasce do caos. O caos é apenas
-            o resultado de uma ordem incompreendida."
-        </em>
-    </p>
-
-    <section class="inscricao">
-
-        <h2>PROTOCOLO DE ATIVAÇÃO</h2>
-
-        <p>O núcleo da Faísca deve ser ativado primeiro.</p>
-
-        <p>O núcleo do Vórtice deve ser ativado imediatamente depois do núcleo da Faísca.</p>
-
-        <p>O núcleo do Trovão deve ser ativado depois do núcleo do Vórtice.</p>
-
-        <p>O núcleo do Eclipse deve ser ativado por último.</p>
-
-    </section>
-
-    <p class="instrucao">
-        Determine a sequência correta de ativação.<br>
-        Cada núcleo pode ser selecionado apenas uma vez.<br>
-        Após confirmar, não será possível alterar a sequência.
-    </p>
-
-    <section class="nucleos" id="nucleos">
-
-        <button class="nucleo" data-id="trovão">
-            <span class="icone">ϟ</span>
-            <span class="nome">TROVÃO</span>
-            <span class="descricao-nucleo">
-                A força que rompe o silêncio.
-            </span>
-        </button>
-
-        <button class="nucleo" data-id="eclipse">
-            <span class="icone">◉</span>
-            <span class="nome">ECLIPSE</span>
-            <span class="descricao-nucleo">
-                O vazio que absorve a luz.
-            </span>
-        </button>
-
-        <button class="nucleo" data-id="faísca">
-            <span class="icone">ϟ̸</span>
-            <span class="nome">FAÍSCA</span>
-            <span class="descricao-nucleo">
-                O primeiro sinal de movimento.
-            </span>
-        </button>
-
-        <button class="nucleo" data-id="vórtice">
-            <span class="icone">⌀</span>
-            <span class="nome">VÓRTICE</span>
-            <span class="descricao-nucleo">
-                A força que conduz o fluxo.
-            </span>
-        </button>
-
-    </section>
-
-    <section class="sequencia">
-
-        <h3>SEQUÊNCIA DE ATIVAÇÃO</h3>
-
-        <div class="slots" id="slots">
-            <div class="slot">?</div>
-            <div class="slot">?</div>
-            <div class="slot">?</div>
-            <div class="slot">?</div>
-        </div>
-
-    </section>
-
-    <button class="acao" id="confirmar" disabled>
-        CONFIRMAR SEQUÊNCIA
-    </button>
-
-    <div id="mensagem" aria-live="polite">
-        O sistema aguarda a primeira ativação.
-    </div>
-
-    <footer class="rodape">
-        TODA ENERGIA COBRA SEU PREÇO
-    </footer>
-
+<a id="voltar" href="index.html">← RETORNAR À ENTRADA</a>
 </main>
 
 <script>
-const botoes = [...document.querySelectorAll(".nucleo")];
-const slots = [...document.querySelectorAll(".slot")];
-const confirmar = document.getElementById("confirmar");
-const mensagem = document.getElementById("mensagem");
-const sala = document.getElementById("sala");
-
-const simbolos = {
-    "trovão": "ϟ",
-    "eclipse": "◉",
-    "faísca": "ϟ̸",
-    "vórtice": "⌀"
-};
-
-// Ordem correta: Faísca → Vórtice → Trovão → Eclipse.
-const respostaCorreta = [
-    "faísca",
-    "vórtice",
-    "trovão",
-    "eclipse"
+const fases = [
+  {
+    titulo: "FASE I — A PARTIDA",
+    descricao: "A fonte é o primeiro nó. Ative os quatro nós em ordem crescente, da esquerda para a direita.",
+    nos: ["FONTE", "NÓ 02", "NÓ 03", "SAÍDA"],
+    icones: ["ϟ", "◇", "◇", "◎"],
+    resposta: [0, 1, 2, 3],
+    erro: "A energia deve avançar sem saltar nenhum nó."
+  },
+  {
+    titulo: "FASE II — A INVERSÃO",
+    descricao: "A corrente mudou de direção. Comece pela fonte e avance da direita para a esquerda.",
+    nos: ["SAÍDA", "NÓ 03", "NÓ 02", "FONTE"],
+    icones: ["◎", "◇", "◇", "ϟ"],
+    resposta: [3, 2, 1, 0],
+    erro: "Você precisa seguir a corrente a partir da fonte, não da saída."
+  },
+  {
+    titulo: "FASE III — A OSCILAÇÃO",
+    descricao: "A energia agora pulsa. Ative primeiro a fonte, depois alterne entre um nó de cada extremidade, avançando para o centro.",
+    nos: ["NÓ EXTERNO", "NÓ INTERNO", "NÓ INTERNO", "FONTE"],
+    icones: ["◇", "◇", "◇", "ϟ"],
+    resposta: [3, 0, 2, 1],
+    erro: "A corrente deve alternar entre as extremidades, aproximando-se do centro."
+  },
+  {
+    titulo: "FASE IV — O NÚCLEO",
+    descricao: "A última corrente é instável. Ative a fonte, depois os nós em posições ímpares e, por fim, os restantes em ordem decrescente.",
+    nos: ["NÓ 01", "NÓ 02", "NÓ 03", "FONTE"],
+    icones: ["◇", "◇", "◇", "ϟ"],
+    resposta: [3, 0, 2, 1],
+    erro: "Comece pela fonte, depois ligue o nó mais à esquerda, o terceiro e finalize no segundo."
+  }
 ];
 
-let sequencia = [];
-let encerrado = false;
+let faseAtual = 0;
+let ativados = [];
+let concluido = localStorage.getItem("puzzle_energia_concluido") === "true";
+let bloqueado = localStorage.getItem("puzzle_energia_bloqueado") === "true";
 
-function som(frequencia, duracao, tipo = "sine") {
-    try {
-        const contexto = new (
-            window.AudioContext ||
-            window.webkitAudioContext
-        )();
+const circuito = document.getElementById("circuito");
+const status = document.getElementById("status");
+const verificar = document.getElementById("verificar");
+const reiniciar = document.getElementById("reiniciar");
 
-        const oscilador = contexto.createOscillator();
-        const volume = contexto.createGain();
+function desenharFase() {
+  const fase = fases[faseAtual];
+  document.getElementById("faseTitulo").textContent = fase.titulo;
+  document.getElementById("faseDescricao").textContent = fase.descricao;
 
-        oscilador.type = tipo;
-        oscilador.frequency.value = frequencia;
+  document.querySelectorAll(".etapa").forEach((el, i) => {
+    el.classList.toggle("ativa", i === faseAtual);
+    el.classList.toggle("concluida", i < faseAtual || concluido);
+  });
 
-        volume.gain.setValueAtTime(
-            0.06,
-            contexto.currentTime
-        );
+  circuito.innerHTML = "";
+  ativados = [];
 
-        volume.gain.exponentialRampToValueAtTime(
-            0.001,
-            contexto.currentTime + duracao
-        );
+  fase.nos.forEach((nome, i) => {
+    const botao = document.createElement("button");
+    botao.className = "no";
+    botao.innerHTML = fase.icones[i] + "<small>" + nome + "</small>";
 
-        oscilador.connect(volume);
-        volume.connect(contexto.destination);
+    if (nome === "FONTE") botao.classList.add("fonte");
+    if (nome === "SAÍDA") botao.classList.add("alvo");
 
-        oscilador.start();
-        oscilador.stop(contexto.currentTime + duracao);
+    botao.addEventListener("click", () => {
+      if (concluido || bloqueado || botao.classList.contains("ligado")) return;
 
-        oscilador.onended = () => contexto.close();
-    } catch (e) {
-        // O puzzle funciona mesmo sem áudio.
-    }
-}
-
-function atualizarSequencia() {
-    slots.forEach((slot, i) => {
-        slot.textContent = sequencia[i]
-            ? simbolos[sequencia[i]]
-            : "?";
-
-        slot.classList.toggle(
-            "preenchido",
-            Boolean(sequencia[i])
-        );
+      botao.classList.add("ligado");
+      ativados.push(i);
+      status.textContent = "Nó ativado. Circuito atual: " + ativados.length + "/4.";
     });
 
-    confirmar.disabled =
-        sequencia.length !== 4 || encerrado;
+    circuito.appendChild(botao);
+  });
+
+  status.textContent = "Ative os nós na ordem descrita para esta fase.";
 }
 
-function selecionarNucleo(evento) {
-    if (encerrado || sequencia.length >= 4) return;
+function terminar() {
+  concluido = true;
+  localStorage.setItem("puzzle_energia_concluido", "true");
 
-    const botao = evento.currentTarget;
-    const id = botao.dataset.id;
+  document.getElementById("faseTitulo").textContent = "NÚCLEO ESTABILIZADO";
+  document.getElementById("faseDescricao").textContent =
+    "Os quatro circuitos estão conectados. A saída se abriu.";
 
-    if (sequencia.includes(id)) return;
-
-    sequencia.push(id);
-    botao.disabled = true;
-
-    mensagem.textContent =
-        `Núcleo registrado. Posição ${sequencia.length} de 4.`;
-
-    som(260 + sequencia.length * 100, 0.15, "triangle");
-
-    atualizarSequencia();
+  circuito.innerHTML = "";
+  status.textContent = "PUZZLE CONCLUÍDO — A Energia foi dominada.";
+  verificar.disabled = true;
+  reiniciar.disabled = true;
+  document.querySelectorAll(".etapa").forEach(el => el.classList.add("concluida"));
 }
 
-function bloquearSala() {
-    encerrado = true;
-
-    botoes.forEach(botao => {
-        botao.disabled = true;
-    });
-
-    confirmar.disabled = true;
+function falhar() {
+  bloqueado = true;
+  localStorage.setItem("puzzle_energia_bloqueado", "true");
+  status.textContent = "O circuito entrou em colapso. Esta tentativa foi encerrada.";
+  circuito.querySelectorAll("button").forEach(btn => btn.disabled = true);
+  verificar.disabled = true;
+  reiniciar.disabled = true;
 }
 
-function concluirPuzzle() {
-    bloquearSala();
+verificar.addEventListener("click", () => {
+  if (concluido || bloqueado) return;
 
-    mensagem.textContent =
-        "OS QUATRO NÚCLEOS ENTRAM EM SINCRONIA. Uma descarga roxa " +
-        "percorre os cabos. A TRAVA DA ENERGIA FOI LIBERADA.";
+  const resposta = fases[faseAtual].resposta;
+  const correto = ativados.length === resposta.length &&
+    ativados.every((valor, i) => valor === resposta[i]);
 
-    mensagem.className = "sucesso";
+  if (!correto) {
+    falhar();
+    return;
+  }
 
-    som(330, 0.2);
-    setTimeout(() => som(494, 0.3), 200);
-    setTimeout(() => som(659, 0.4), 450);
-    setTimeout(() => som(880, 0.6), 700);
+  if (faseAtual === fases.length - 1) {
+    terminar();
+    return;
+  }
 
-    sala.classList.add("piscando");
-
-    localStorage.setItem(
-        "puzzle_energia_concluido",
-        "true"
-    );
-}
-
-function falharPuzzle() {
-    bloquearSala();
-
-    mensagem.textContent =
-        "SOBRECARGA. Os núcleos perdem a sincronia e as luzes " +
-        "se apagam. O mecanismo foi bloqueado.";
-
-    mensagem.className = "erro";
-
-    som(90, 0.8, "sawtooth");
-
-    sala.classList.add("piscando");
-}
-
-function verificarResposta() {
-    if (encerrado || sequencia.length !== 4) return;
-
-    const correta = sequencia.every(
-        (nucleo, indice) =>
-            nucleo === respostaCorreta[indice]
-    );
-
-    if (correta) {
-        concluirPuzzle();
-    } else {
-        falharPuzzle();
-    }
-}
-
-botoes.forEach(botao => {
-    botao.addEventListener("click", selecionarNucleo);
+  faseAtual++;
+  desenharFase();
 });
 
-confirmar.addEventListener("click", verificarResposta);
+reiniciar.addEventListener("click", () => {
+  if (concluido || bloqueado) return;
+  desenharFase();
+});
 
-if (
-    localStorage.getItem("puzzle_energia_concluido")
-    === "true"
-) {
-    bloquearSala();
-
-    mensagem.textContent =
-        "ESTA SALA JÁ FOI CONCLUÍDA. A TRAVA DA ENERGIA ESTÁ LIBERADA.";
-
-    mensagem.className = "sucesso";
+if (concluido) {
+  terminar();
+} else if (bloqueado) {
+  document.getElementById("faseTitulo").textContent = "CIRCUITO EM COLAPSO";
+  document.getElementById("faseDescricao").textContent = "A energia foi perdida.";
+  circuito.innerHTML = "";
+  status.textContent = "Esta tentativa foi encerrada.";
+  verificar.disabled = true;
+  reiniciar.disabled = true;
+} else {
+  desenharFase();
 }
 </script>
-
 </body>
 </html>
