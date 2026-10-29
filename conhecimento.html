@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Sala do Conhecimento | ORDEM VETO</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --ouro: #d6b45c;
+    --ouro-claro: #f0d88c;
+    --ouro-escuro: #705522;
+    --fundo: #090806;
+    --painel: #141109;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at center, #29200d 0%, #100e08 48%, #050505 100%);
+    color: #d8cfb5;
+    font-family: "Courier New", monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.container {
+    width: 100%;
+    max-width: 760px;
+    text-align: center;
+}
+
+.categoria {
+    color: #8d7846;
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 22px;
+}
+
+h1 {
+    color: var(--ouro-claro);
+    font-size: clamp(27px, 7vw, 46px);
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px #d6b45c25;
+    margin-bottom: 12px;
+}
+
+.subtitulo {
+    color: #958253;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+}
+
+.divisor {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ouro-escuro), transparent);
+    margin-bottom: 28px;
+}
+
+.historia {
+    color: #b4a989;
+    font-size: 12px;
+    line-height: 2;
+    margin-bottom: 26px;
+}
+
+.inscricao {
+    border: 1px solid var(--ouro-escuro);
+    background: #100e09;
+    padding: 22px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.inscricao h2 {
+    text-align: center;
+    color: var(--ouro);
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 17px;
+}
+
+.inscricao p {
+    font-size: 12px;
+    line-height: 2;
+    color: #b4a989;
+    margin-bottom: 8px;
+}
+
+.inscricao p:last-child {
+    margin-bottom: 0;
+}
+
+.inscricao p::before {
+    content: "✦ ";
+    color: var(--ouro-escuro);
+}
+
+.instrucao {
+    color: #8f8469;
+    font-size: 11px;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+
+.livros {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.livro {
+    min-height: 145px;
+    padding: 18px 10px;
+    background: #141109;
+    color: var(--ouro);
+    border: 1px solid #66532b;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.livro:hover:not(:disabled) {
+    background: #29200e;
+    border-color: var(--ouro-claro);
+    box-shadow: 0 0 18px #d6b45c15;
+}
+
+.livro:focus-visible,
+.acao:focus-visible {
+    outline: 2px solid var(--ouro-claro);
+    outline-offset: 4px;
+}
+
+.livro:disabled {
+    cursor: default;
+    opacity: 0.4;
+}
+
+.icone {
+    display: block;
+    font-size: 31px;
+    margin-bottom: 12px;
+}
+
+.nome {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.descricao-livro {
+    display: block;
+    color: #8f8469;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.sequencia {
+    padding: 18px;
+    border: 1px solid #40351d;
+    background: #0b0a07;
+    margin-bottom: 18px;
+}
+
+.sequencia h3 {
+    color: #8f7842;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.slots {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.slot {
+    width: 48px;
+    height: 48px;
+    border: 1px dashed #66532b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    color: var(--ouro);
+}
+
+.slot.preenchido {
+    background: #211a0c;
+    border-style: solid;
+}
+
+.acao {
+    padding: 15px 22px;
+    background: #211a0c;
+    color: var(--ouro-claro);
+    border: 1px solid var(--ouro-escuro);
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.acao:hover:not(:disabled) {
+    background: #352912;
+    border-color: var(--ouro-claro);
+}
+
+.acao:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#mensagem {
+    min-height: 55px;
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #9b8a60;
+}
+
+.sucesso {
+    color: var(--ouro-claro) !important;
+}
+
+.erro {
+    color: #bc7770 !important;
+}
+
+.rodape {
+    margin-top: 25px;
+    color: #51452b;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.piscando {
+    animation: falha 0.25s ease-in-out 3;
+}
+
+@keyframes falha {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+@media (max-width: 380px) {
+    body {
+        padding: 14px;
+    }
+
+    .inscricao {
+        padding: 15px;
+    }
+
+    .livro {
+        min-height: 135px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container" id="sala">
+
+    <p class="categoria">ORDEM VETO // ARQUIVO RESTRITO</p>
+
+    <h1>O CONHECIMENTO</h1>
+
+    <p class="subtitulo">SALA II — A VERDADE OCULTA</p>
+
+    <div class="divisor"></div>
+
+    <p class="historia">
+        Estantes antigas cobrem as paredes. No centro da sala,
+        quatro livros repousam sobre um pedestal de pedra dourada.<br><br>
+
+        Nenhum deles possui título. Suas capas apresentam apenas
+        símbolos, como se os próprios autores tivessem medo
+        de registrar seus nomes.<br><br>
+
+        Uma inscrição está gravada no pedestal.
+    </p>
+
+    <section class="inscricao">
+
+        <h2>AS QUATRO VERDADES</h2>
+
+        <p>O livro do Olho deve ser consultado antes do livro da Lua.</p>
+
+        <p>O livro do Sol deve ocupar a última posição.</p>
+
+        <p>O livro da Lua não pode ser o primeiro.</p>
+
+        <p>O livro da Estrela deve ser consultado imediatamente depois do livro da Lua.</p>
+
+    </section>
+
+    <p class="instrucao">
+        As pistas revelam uma única sequência.<br>
+        Selecione os quatro livros na ordem correta.<br>
+        Sua escolha será definitiva após a confirmação.
+    </p>
+
+    <section class="livros" id="livros">
+
+        <button class="livro" data-id="sol">
+            <span class="icone">☀</span>
+            <span class="nome">LIVRO DO SOL</span>
+            <span class="descricao-livro">Aquilo que não pode permanecer oculto.</span>
+        </button>
+
+        <button class="livro" data-id="lua">
+            <span class="icone">☾</span>
+            <span class="nome">LIVRO DA LUA</span>
+            <span class="descricao-livro">Aquilo que existe além da visão.</span>
+        </button>
+
+        <button class="livro" data-id="olho">
+            <span class="icone">◉</span>
+            <span class="nome">LIVRO DO OLHO</span>
+            <span class="descricao-livro">Aquilo que observa sem ser visto.</span>
+        </button>
+
+        <button class="livro" data-id="estrela">
+            <span class="icone">✦</span>
+            <span class="nome">LIVRO DA ESTRELA</span>
+            <span class="descricao-livro">Aquilo que guia os perdidos.</span>
+        </button>
+
+    </section>
+
+    <section class="sequencia">
+
+        <h3>ORDEM DE CONSULTA</h3>
+
+        <div class="slots" id="slots">
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+            <div class="slot">?</div>
+        </div>
+
+    </section>
+
+    <button class="acao" id="confirmar" disabled>
+        CONFIRMAR SEQUÊNCIA
+    </button>
+
+    <div id="mensagem" aria-live="polite">
+        O conhecimento exige paciência.
+    </div>
+
+    <footer class="rodape">
+        NEM TODA VERDADE DEVE SER DESCOBERTA
+    </footer>
+
+</main>
+
+<script>
+const botoes = [...document.querySelectorAll(".livro")];
+const slots = [...document.querySelectorAll(".slot")];
+const confirmar = document.getElementById("confirmar");
+const mensagem = document.getElementById("mensagem");
+const sala = document.getElementById("sala");
+
+const simbolos = {
+    sol: "☀",
+    lua: "☾",
+    olho: "◉",
+    estrela: "✦"
+};
+
+// Ordem correta: Olho → Lua → Estrela → Sol.
+const respostaCorreta = [
+    "olho",
+    "lua",
+    "estrela",
+    "sol"
+];
+
+let sequencia = [];
+let encerrado = false;
+
+function som(frequencia, duracao, tipo = "sine") {
+    try {
+        const contexto = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+        const oscilador = contexto.createOscillator();
+        const volume = contexto.createGain();
+
+        oscilador.type = tipo;
+        oscilador.frequency.value = frequencia;
+
+        volume.gain.setValueAtTime(
+            0.06,
+            contexto.currentTime
+        );
+
+        volume.gain.exponentialRampToValueAtTime(
+            0.001,
+            contexto.currentTime + duracao
+        );
+
+        oscilador.connect(volume);
+        volume.connect(contexto.destination);
+
+        oscilador.start();
+        oscilador.stop(contexto.currentTime + duracao);
+
+        oscilador.onended = () => contexto.close();
+    } catch (e) {
+        // O puzzle funciona mesmo sem áudio.
+    }
+}
+
+function atualizarSequencia() {
+    slots.forEach((slot, i) => {
+        slot.textContent = sequencia[i]
+            ? simbolos[sequencia[i]]
+            : "?";
+
+        slot.classList.toggle(
+            "preenchido",
+            Boolean(sequencia[i])
+        );
+    });
+
+    confirmar.disabled =
+        sequencia.length !== 4 || encerrado;
+}
+
+function selecionarLivro(evento) {
+    if (encerrado || sequencia.length >= 4) return;
+
+    const botao = evento.currentTarget;
+    const id = botao.dataset.id;
+
+    if (sequencia.includes(id)) return;
+
+    sequencia.push(id);
+    botao.disabled = true;
+
+    mensagem.textContent =
+        `Livro registrado. Posição ${sequencia.length} de 4.`;
+
+    som(320, 0.15, "triangle");
+
+    atualizarSequencia();
+}
+
+function bloquearSala() {
+    encerrado = true;
+
+    botoes.forEach(botao => {
+        botao.disabled = true;
+    });
+
+    confirmar.disabled = true;
+}
+
+function concluirPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "OS LIVROS FORAM ORGANIZADOS. Um compartimento secreto " +
+        "se abre no pedestal. A TRAVA DO CONHECIMENTO FOI LIBERADA.";
+
+    mensagem.className = "sucesso";
+
+    som(523, 0.25);
+    setTimeout(() => som(659, 0.35), 220);
+    setTimeout(() => som(784, 0.5), 480);
+
+    sala.classList.add("piscando");
+
+    localStorage.setItem(
+        "puzzle_conhecimento_concluido",
+        "true"
+    );
+}
+
+function falharPuzzle() {
+    bloquearSala();
+
+    mensagem.textContent =
+        "OS LIVROS REJEITAM SUA ESCOLHA. Uma rajada de vento " +
+        "apaga as luzes. O mecanismo foi bloqueado.";
+
+    mensagem.className = "erro";
+
+    som(100, 0.7, "sawtooth");
+
+    sala.classList.add("piscando");
+}
+
+function verificarResposta() {
+    if (encerrado || sequencia.length !== 4) return;
+
+    const correta = sequencia.every(
+        (livro, indice) =>
+            livro === respostaCorreta[indice]
+    );
+
+    if (correta) {
+        concluirPuzzle();
+    } else {
+        falharPuzzle();
+    }
+}
+
+botoes.forEach(botao => {
+    botao.addEventListener("click", selecionarLivro);
+});
+
+confirmar.addEventListener("click", verificarResposta);
+
+if (
+    localStorage.getItem("puzzle_conhecimento_concluido")
+    === "true"
+) {
+    bloquearSala();
+
+    mensagem.textContent =
+        "ESTA SALA JÁ FOI CONCLUÍDA. A TRAVA DO CONHECIMENTO ESTÁ LIBERADA.";
+
+    mensagem.className = "sucesso";
+}
+</script>
+
+</body>
+</html>
