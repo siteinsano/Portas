@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Salas | ORDEM VETO</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080808;
+            color: #e0e0e0;
+            font-family: "Courier New", monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .aviso {
+            color: #777;
+            font-size: 11px;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(25px, 6vw, 42px);
+            letter-spacing: 5px;
+            color: #eeeeee;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px #ffffff22;
+        }
+
+        .descricao {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .salas {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .sala {
+            --cor: #ffffff;
+
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+
+            min-height: 155px;
+            padding: 20px 10px;
+
+            background: #101010;
+            border: 1px solid var(--cor);
+            border-radius: 4px;
+
+            color: var(--cor);
+            text-decoration: none;
+            cursor: pointer;
+
+            transition:
+                background 0.25s,
+                box-shadow 0.25s,
+                transform 0.25s;
+        }
+
+        .sala:hover,
+        .sala:focus-visible {
+            background: color-mix(in srgb, var(--cor) 12%, #101010);
+            box-shadow: 0 0 22px color-mix(in srgb, var(--cor) 35%, transparent);
+            transform: translateY(-3px);
+            outline: none;
+        }
+
+        .simbolo {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .nome {
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .tema {
+            font-size: 10px;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        .morte {
+            --cor: #a0a0a0;
+        }
+
+        .conhecimento {
+            --cor: #d8ad45;
+        }
+
+        .sangue {
+            --cor: #c62838;
+        }
+
+        .energia {
+            --cor: #a45be8;
+        }
+
+        .rodape {
+            margin-top: 30px;
+            color: #484848;
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 380px) {
+            .salas {
+                grid-template-columns: 1fr;
+            }
+
+            .sala {
+                min-height: 125px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sala {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <p class="aviso">ORDEM VETO // ACESSO RESTRITO</p>
+
+        <h1>SELEÇÃO DE SALAS</h1>
+
+        <p class="descricao">
+            Quatro caminhos foram abertos.<br>
+            Escolha com cautela. Sua decisão não poderá ser desfeita.
+        </p>
+
+        <nav class="salas" aria-label="Seleção de puzzles">
+
+            <a href="morte.html" class="sala morte">
+                <span class="simbolo" aria-hidden="true">☠</span>
+                <span class="nome">MORTE</span>
+                <span class="tema">CINZA // SALA I</span>
+            </a>
+
+            <a href="conhecimento.html" class="sala conhecimento">
+                <span class="simbolo" aria-hidden="true">◈</span>
+                <span class="nome">CONHECIMENTO</span>
+                <span class="tema">DOURADO // SALA II</span>
+            </a>
+
+            <a href="sangue.html" class="sala sangue">
+                <span class="simbolo" aria-hidden="true">♥</span>
+                <span class="nome">SANGUE</span>
+                <span class="tema">VERMELHO // SALA III</span>
+            </a>
+
+            <a href="energia.html" class="sala energia">
+                <span class="simbolo" aria-hidden="true">ϟ</span>
+                <span class="nome">ENERGIA</span>
+                <span class="tema">ROXO // SALA IV</span>
+            </a>
+
+        </nav>
+
+        <footer class="rodape">
+            NENHUMA ESCOLHA É LIVRE DE CONSEQUÊNCIAS
+        </footer>
+
+    </main>
+
+</body>
+</html>
